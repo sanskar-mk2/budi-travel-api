@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_details', function (Blueprint $table) {
+        Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\User::class);
-            $table->boolean('onboarded')->default(false);
-            $table->boolean('terms_accepted')->default(false);
-            $table->boolean('active')->default(true);
+            $table->string('profile_picture')->nullable();
+            $table->string('instagram_handle')->nullable();
+            $table->string('tiktok_handle')->nullable();
+            $table->string('facebook_handle')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_details');
+        Schema::dropIfExists('profiles');
     }
 };

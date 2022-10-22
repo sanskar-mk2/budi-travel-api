@@ -24,6 +24,11 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function profile()
+    {
+        return $this->hasOne(\App\Models\Profile::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -42,4 +47,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) {
+            $user->profile()->create();
+        });
+    }
 }
