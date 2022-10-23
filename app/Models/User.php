@@ -24,6 +24,13 @@ class User extends Authenticatable
         'password',
     ];
 
+    protected $appends = ['average_rating'];
+
+    public function getAverageRatingAttribute()
+    {
+        return $this->agentReviews->avg('rating');
+    }
+
     public function profile()
     {
         return $this->hasOne(\App\Models\Profile::class);
@@ -47,6 +54,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function agentReviews()
+    {
+        return $this->hasMany(\App\Models\AgentReview::class, 'agent_id');
+    }
+
+    public function userReviews()
+    {
+        return $this->hasMany(\App\Models\AgentReview::class, 'user_id');
+    }
 
     protected static function boot()
     {

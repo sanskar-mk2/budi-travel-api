@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -11,6 +10,7 @@ class ProfileController extends Controller
     {
         $user = $request->user();
         $profile = $user->profile;
+
         return response()->json([
             'message' => 'Successfully fetched profile',
             'profile' => $profile,
@@ -35,7 +35,6 @@ class ProfileController extends Controller
             'tiktok_handle' => $request->tiktok_handle,
             'facebook_handle' => $request->facebook_handle,
         ]);
-
 
         return response()->json([
             'message' => 'Successfully updated profile',

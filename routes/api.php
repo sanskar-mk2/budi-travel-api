@@ -29,6 +29,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/show', [\App\Http\Controllers\ProfileController::class, 'show']);
         Route::post('/update', [\App\Http\Controllers\ProfileController::class, 'update']);
     });
+
+    Route::group(['prefix' => 'agent_reviews'], function () {
+        Route::post('create', [\App\Http\Controllers\AgentReviewController::class, 'create']);
+        Route::get('/agent', [\App\Http\Controllers\AgentReviewController::class, 'agent']);
+        Route::get('/user', [\App\Http\Controllers\AgentReviewController::class, 'user']);
+    });
+
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/agents', [\App\Http\Controllers\UserController::class, 'agents']);
+    });
 });
 
 Route::post('/admin/login', [\App\Http\Controllers\Admin\AuthController::class, 'login']);

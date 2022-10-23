@@ -23,6 +23,6 @@ class Profile extends Model
 
     public function getProfilePictureAttribute($value)
     {
-        return $value ? asset('storage/' . $value) : null;
+        return $value ? asset('storage/'.$value) : null;
     }
 }

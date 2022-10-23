@@ -42,9 +42,9 @@ class AuthController extends Controller
 
         $user = \App\Models\User::where('email', $request->email)->first();
         if (
-            !$user ||
-            !$user->hasRole($request->role) ||
-            !Hash::check($request->password, $user->password)
+            ! $user ||
+            ! $user->hasRole($request->role) ||
+            ! Hash::check($request->password, $user->password)
         ) {
             return response()->json([
                 'message' => 'Invalid credentials',
@@ -60,7 +60,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        if (!$request->user()->tokenCan('auth_token')) {
+        if (! $request->user()->tokenCan('auth_token')) {
             return response()->json([
                 'message' => 'Invalid token',
             ], 401);
@@ -74,13 +74,13 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        if (!$request->user()->tokenCan('auth_token')) {
+        if (! $request->user()->tokenCan('auth_token')) {
             return response()->json([
                 'message' => 'Invalid token',
             ], 401);
         }
 
-        return response()->json($request->user());
+        return response()->json($request->user()->load('roles'));
     }
 
     public function forgot_password(Request $request)
@@ -90,7 +90,7 @@ class AuthController extends Controller
         ]);
 
         $user = \App\Models\User::where('email', $request->email)->first();
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'message' => 'Invalid credentials',
             ], 401);
@@ -108,7 +108,7 @@ class AuthController extends Controller
             'password' => 'required|string|confirmed',
         ]);
 
-        if (!$request->user()->tokenCan('reset_token')) {
+        if (! $request->user()->tokenCan('reset_token')) {
             return response()->json([
                 'message' => 'Invalid token',
             ], 401);
@@ -126,7 +126,7 @@ class AuthController extends Controller
 
     public function logout_everywhere(Request $request)
     {
-        if (!$request->user()->tokenCan('auth_token')) {
+        if (! $request->user()->tokenCan('auth_token')) {
             return response()->json([
                 'message' => 'Invalid token',
             ], 401);
@@ -140,7 +140,7 @@ class AuthController extends Controller
 
     public function change_password(Request $request)
     {
-        if (!$request->user()->tokenCan('auth_token')) {
+        if (! $request->user()->tokenCan('auth_token')) {
             return response()->json([
                 'message' => 'Invalid token',
             ], 401);
@@ -155,16 +155,14 @@ class AuthController extends Controller
         $request->user()->password = bcrypt($request->password);
         $request->user()->save();
 
-
         return response()->json([
             'message' => 'Password Changed, login with new password',
         ], 200);
-
     }
 
     public function change_email(Request $request)
     {
-        if (!$request->user()->tokenCan('auth_token')) {
+        if (! $request->user()->tokenCan('auth_token')) {
             return response()->json([
                 'message' => 'Invalid token',
             ], 401);
@@ -183,6 +181,5 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Email Changed, login with new email',
         ], 200);
-
     }
 }
