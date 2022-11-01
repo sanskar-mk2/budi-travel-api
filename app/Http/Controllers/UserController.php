@@ -8,16 +8,9 @@ class UserController extends Controller
 {
     public function agents(Request $request)
     {
-        if (! $request->user()->tokenCan('auth_token')) {
+        if ($request->user()->hasRole('agent')) {
             return response()->json([
-                'message' => 'Invalid token',
-            ], 401);
-        }
-
-        // make sure the user has the user role
-        if (! $request->user()->hasRole('user')) {
-            return response()->json([
-                'message' => 'Invalid user role',
+                'message' => 'Invalid authenticated user role',
             ], 401);
         }
 
@@ -28,6 +21,24 @@ class UserController extends Controller
         return response()->json([
             'message' => 'Successfully fetched agents',
             'agents' => $agents,
+        ], 200);
+    }
+
+    public function users(Request $request)
+    {
+        if ($request->user()->hasRole('user')) {
+            return response()->json([
+                'message' => 'Invalid authenticated user role',
+            ], 401);
+        }
+
+        $users = \App\Models\User::role('user')->get();
+        $users = $users->load('profile');
+        $users = $users->load('userReviews');
+
+        return response()->json([
+            'message' => 'Successfully fetched users',
+            'users' => $users,
         ], 200);
     }
 }

@@ -8,12 +8,6 @@ class AgentReviewController extends Controller
 {
     public function create(Request $request)
     {
-        if (! $request->user()->tokenCan('auth_token')) {
-            return response()->json([
-                'message' => 'Invalid token',
-            ], 401);
-        }
-
         // check if the auth user has the user role
         if (! $request->user()->hasRole('user')) {
             return response()->json([
@@ -60,49 +54,47 @@ class AgentReviewController extends Controller
         ], 201);
     }
 
-    public function agent(Request $request)
+    public function index(Request $request)
     {
-        if (! $request->user()->tokenCan('auth_token')) {
-            return response()->json([
-                'message' => 'Invalid token',
-            ], 401);
+        if ($request->id) {
+            $request->validate([
+                'id' => 'required|integer|exists:users,id',
+            ]);
+            $user = \App\Models\User::find($request->id);
+            if ($user->hasRole('agent')) {
+                $reviews = $user->agentReviews;
+            } elseif ($user->hasRole('user')) {
+                $reviews = $user->userReviews;
+            } else {
+                return response()->json([
+                    'message' => 'Invalid user',
+                ], 400);
+            }
+        } else {
+            $reviews = \App\Models\AgentReview::all();
         }
-
-        // check if the auth user has the agent role
-        if (! $request->user()->hasRole('agent')) {
-            return response()->json([
-                'message' => 'Invalid role',
-            ], 401);
-        }
-
-        $agentReviews = $request->user()->agentReviews;
 
         return response()->json([
-            'message' => 'Successfully fetched reviews for agent',
-            'agentReviews' => $agentReviews,
+            'message' => 'Successfully fetched agent reviews',
+            'reviews' => $reviews,
         ], 200);
     }
 
-    public function user(Request $request)
+    public function me(Request $request)
     {
-        if (! $request->user()->tokenCan('auth_token')) {
-            return response()->json([
-                'message' => 'Invalid token',
-            ], 401);
-        }
-
-        // check if the auth user has the user role
-        if (! $request->user()->hasRole('user')) {
+        if ($request->user()->hasRole('user')) {
+            $userReviews = $request->user()->userReviews;
+        } elseif ($request->user()->hasRole('agent')) {
+            $userReviews = $request->user()->agentReviews;
+        } else {
             return response()->json([
                 'message' => 'Invalid role',
             ], 401);
         }
 
-        $userReviews = $request->user()->userReviews;
-
         return response()->json([
-            'message' => 'Successfully fetched reviews created by this user',
-            'userReviews' => $userReviews,
+            'message' => 'Successfully fetched reviews related to this user/agent',
+            'reviews' => $userReviews,
         ], 200);
     }
 }

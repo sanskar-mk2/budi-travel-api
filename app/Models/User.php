@@ -73,4 +73,9 @@ class User extends Authenticatable
             $user->profile()->create();
         });
     }
+
+    public function offers()
+    {
+        return $this->hasMany(\App\Models\Offer::class, 'created_by');
+    }
 }

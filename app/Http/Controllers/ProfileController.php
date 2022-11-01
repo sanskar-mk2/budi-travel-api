@@ -26,7 +26,7 @@ class ProfileController extends Controller
             'facebook_handle' => 'nullable|string',
         ]);
 
-        $image_path = $request->file('profile_picture')->store('image', 'public');
+        $image_path = $request->file('profile_picture')->store('pfps', 'public');
         $user = $request->user();
         $profile = $user->profile;
         $profile->update([
