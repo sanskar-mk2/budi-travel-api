@@ -28,6 +28,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Successfully created user!',
+            'user' => $user,
             'token' => $user->createToken('auth_token', ['auth_token'])->plainTextToken,
         ], 201);
     }
@@ -42,9 +43,9 @@ class AuthController extends Controller
 
         $user = \App\Models\User::where('email', $request->email)->first();
         if (
-            !$user ||
-            !$user->hasRole($request->role) ||
-            !Hash::check($request->password, $user->password)
+            ! $user ||
+            ! $user->hasRole($request->role) ||
+            ! Hash::check($request->password, $user->password)
         ) {
             return response()->json([
                 'message' => 'Invalid credentials',
@@ -79,7 +80,7 @@ class AuthController extends Controller
         ]);
 
         $user = \App\Models\User::where('email', $request->email)->first();
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'message' => 'Invalid credentials',
             ], 401);
@@ -97,7 +98,7 @@ class AuthController extends Controller
             'password' => 'required|string|confirmed',
         ]);
 
-        if (!$request->user()->tokenCan('reset_token')) {
+        if (! $request->user()->tokenCan('reset_token')) {
             return response()->json([
                 'message' => 'Invalid token',
             ], 401);

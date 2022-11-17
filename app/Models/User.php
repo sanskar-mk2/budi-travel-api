@@ -36,6 +36,11 @@ class User extends Authenticatable
         return $this->hasOne(\App\Models\Profile::class);
     }
 
+    public function coordinates()
+    {
+        return $this->hasMany(\App\Models\Coordinate::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -71,6 +76,7 @@ class User extends Authenticatable
 
         static::created(function ($user) {
             $user->profile()->create();
+            $user->coordinates()->create();
         });
     }
 
