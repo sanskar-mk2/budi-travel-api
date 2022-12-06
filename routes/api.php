@@ -42,7 +42,18 @@ Route::group(['middleware' => ['missing-header']], function () {
 
         Route::group(['prefix' => 'users', 'middleware' => ['abilities:auth_token']], function () {
             Route::get('/agents', [\App\Http\Controllers\UserController::class, 'agents']);
+            Route::get('/featured_agents', [\App\Http\Controllers\UserController::class, 'featured_agents']);
+            Route::get('/search_agent', [\App\Http\Controllers\UserController::class, 'search_agent']);
             Route::get('/users', [\App\Http\Controllers\UserController::class, 'users']);
+        });
+
+        Route::group(['prefix' => 'user_details', 'middleware' => ['abilities:auth_token']], function () {
+            Route::get('/terms_and_conditions', [\App\Http\Controllers\UserDetailController::class, 'get_terms_and_conditions']);
+            Route::post('/terms_and_conditions', [\App\Http\Controllers\UserDetailController::class, 'post_terms_and_conditions']);
+            Route::get('/privacy_policy', [\App\Http\Controllers\UserDetailController::class, 'get_privacy_policy']);
+            Route::post('/privacy_policy', [\App\Http\Controllers\UserDetailController::class, 'post_privacy_policy']);
+            Route::get('/onboarding', [\App\Http\Controllers\UserDetailController::class, 'get_onboarding']);
+            Route::post('/onboarding', [\App\Http\Controllers\UserDetailController::class, 'post_onboarding']);
         });
 
         Route::group(['prefix' => 'offers', 'middleware' => ['abilities:auth_token']], function () {

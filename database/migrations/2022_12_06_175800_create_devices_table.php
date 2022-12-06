@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_details', function (Blueprint $table) {
+        Schema::create('devices', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\User::class);
-            $table->boolean('onboarded')->default(false);
-            $table->boolean('terms_accepted')->default(false);
-            $table->boolean('privacy_accepted')->default(false);
-            $table->boolean('active')->default(true);
+            $table->foreignIdFor(\App\Models\User::class)->unique();
+            $table->string('device_id')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_details');
+        Schema::dropIfExists('devices');
     }
 };

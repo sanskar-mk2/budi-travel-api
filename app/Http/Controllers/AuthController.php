@@ -14,6 +14,7 @@ class AuthController extends Controller
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string',
             'role' => 'required|string|in:user,agent',
+            'device_id' => 'nullable|string',
         ]);
 
         $user = new \App\Models\User([
@@ -25,6 +26,14 @@ class AuthController extends Controller
         $user->save();
 
         $user->assignRole($request->role);
+
+        if ($request->device_id) {
+            $device = new \App\Models\Device([
+                'device_id' => $request->device_id,
+            ]);
+
+            $user->device()->save($device);
+        }
 
         return response()->json([
             'message' => 'Successfully created user!',
@@ -39,18 +48,34 @@ class AuthController extends Controller
             'email' => 'required|string|email',
             'password' => 'required|string',
             'role' => 'required|string|in:user,agent',
+            'device_id' => 'nullable|string',
         ]);
 
         $user = \App\Models\User::where('email', $request->email)->first();
         if (
-            ! $user ||
-            ! $user->hasRole($request->role) ||
-            ! Hash::check($request->password, $user->password)
+            !$user ||
+            !$user->hasRole($request->role) ||
+            !Hash::check($request->password, $user->password)
         ) {
             return response()->json([
                 'message' => 'Invalid credentials',
             ], 401);
         }
+
+        if ($request->device_id) {
+            $device = \App\Models\Device::where('user_id', $user->id)->first();
+            if ($device) {
+                $device->device_id = $request->device_id;
+                $device->save();
+            } else {
+                $device = new \App\Models\Device([
+                    'user_id' => $user->id,
+                    'device_id' => $request->device_id,
+                ]);
+                $device->save();
+            }
+        }
+
 
         return response()->json([
             'message' => 'Successfully logged in',
@@ -62,6 +87,12 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
+
+        // delete device
+        $device = \App\Models\Device::where('user_id', $request->user()->id)->first();
+        if ($device) {
+            $device->delete();
+        }
 
         return response()->json([
             'message' => 'Successfully logged out',
@@ -80,7 +111,7 @@ class AuthController extends Controller
         ]);
 
         $user = \App\Models\User::where('email', $request->email)->first();
-        if (! $user) {
+        if (!$user) {
             return response()->json([
                 'message' => 'Invalid credentials',
             ], 401);
@@ -98,7 +129,7 @@ class AuthController extends Controller
             'password' => 'required|string|confirmed',
         ]);
 
-        if (! $request->user()->tokenCan('reset_token')) {
+        if (!$request->user()->tokenCan('reset_token')) {
             return response()->json([
                 'message' => 'Invalid token',
             ], 401);
@@ -117,6 +148,12 @@ class AuthController extends Controller
     public function logout_everywhere(Request $request)
     {
         $request->user()->tokens()->delete();
+
+        // delete device
+        $device = \App\Models\Device::where('user_id', $request->user()->id)->first();
+        if ($device) {
+            $device->delete();
+        }
 
         return response()->json([
             'message' => 'Successfully logged out everywhere',

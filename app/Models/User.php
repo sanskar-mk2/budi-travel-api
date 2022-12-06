@@ -31,6 +31,11 @@ class User extends Authenticatable
         return $this->agentReviews->avg('rating');
     }
 
+    public function device()
+    {
+        return $this->hasOne(\App\Models\Device::class);
+    }
+
     public function profile()
     {
         return $this->hasOne(\App\Models\Profile::class);
@@ -39,6 +44,11 @@ class User extends Authenticatable
     public function coordinates()
     {
         return $this->hasMany(\App\Models\Coordinate::class);
+    }
+
+    public function userDetail()
+    {
+        return $this->hasOne(\App\Models\UserDetail::class);
     }
 
     /**
@@ -76,6 +86,7 @@ class User extends Authenticatable
 
         static::created(function ($user) {
             $user->profile()->create();
+            $user->userDetail()->create();
             $user->coordinates()->create();
         });
     }
