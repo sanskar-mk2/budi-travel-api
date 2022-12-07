@@ -10,10 +10,9 @@ class UserDetailController extends Controller
     {
         $user = $request->user();
 
-
         return response()->json([
             'message' => 'Successfully fetched terms and conditions',
-            't_and_c' => "Terms and conditions go here",
+            't_and_c' => 'Terms and conditions go here',
             'status' => $user->userDetail->terms_accepted,
         ], 200);
     }
@@ -35,9 +34,10 @@ class UserDetailController extends Controller
     public function get_privacy_policy(Request $request)
     {
         $user = $request->user();
+
         return response()->json([
             'message' => 'Successfully fetched privacy policy',
-            'privacy_policy' => "Privacy policy goes here",
+            'privacy_policy' => 'Privacy policy goes here',
             'status' => $user->userDetail->privacy_accepted,
         ], 200);
     }

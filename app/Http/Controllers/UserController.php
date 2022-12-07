@@ -55,7 +55,7 @@ class UserController extends Controller
             'name' => 'required|string',
         ]);
 
-        $agents = \App\Models\User::role('agent')->where('name', 'like', '%' . $request->name . '%')->get();
+        $agents = \App\Models\User::role('agent')->where('name', 'like', '%'.$request->name.'%')->get();
         $agents = $agents->load('profile');
         $agents = $agents->load('agentReviews');
 

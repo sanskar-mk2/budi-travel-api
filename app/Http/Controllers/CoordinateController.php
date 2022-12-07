@@ -28,8 +28,9 @@ class CoordinateController extends Controller
             'coordinates' => $coordinates,
         ], 200);
     }
-    
-    public function nearby_agents(Request $request) {
+
+    public function nearby_agents(Request $request)
+    {
         $request->validate([
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',

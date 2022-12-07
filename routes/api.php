@@ -56,6 +56,12 @@ Route::group(['middleware' => ['missing-header']], function () {
             Route::post('/onboarding', [\App\Http\Controllers\UserDetailController::class, 'post_onboarding']);
         });
 
+        Route::group(['prefix' => 'support', 'middleware' => ['abilities:auth_token']], function () {
+            Route::post('/contact_us', [\App\Http\Controllers\SupportController::class, 'contact_us']);
+            Route::get('/support_tickets', [\App\Http\Controllers\SupportController::class, 'support_tickets']);
+            Route::get('/support_ticket/{id}', [\App\Http\Controllers\SupportController::class, 'support_ticket']);
+        });
+
         Route::group(['prefix' => 'offers', 'middleware' => ['abilities:auth_token']], function () {
             Route::post('/create', [\App\Http\Controllers\OfferController::class, 'create']);
             Route::get('/', [\App\Http\Controllers\OfferController::class, 'index']);

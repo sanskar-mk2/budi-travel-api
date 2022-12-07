@@ -31,6 +31,11 @@ class User extends Authenticatable
         return $this->agentReviews->avg('rating');
     }
 
+    public function supports()
+    {
+        return $this->hasMany(\App\Models\Support::class);
+    }
+
     public function device()
     {
         return $this->hasOne(\App\Models\Device::class);
