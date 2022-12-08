@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('topic');
             $table->string('subject');
-            $table->string('message');
+            $table->text('message');
             $table->boolean('resolved')->default(false);
             $table->timestamps();
         });
