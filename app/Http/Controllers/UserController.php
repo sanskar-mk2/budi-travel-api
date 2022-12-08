@@ -14,7 +14,7 @@ class UserController extends Controller
             ], 401);
         }
 
-        $agents = \App\Models\User::role('agent')->get();
+        $agents = \App\Models\User::role('agent')->paginate(10);
         $agents = $agents->load('profile');
         $agents = $agents->load('agentReviews');
 

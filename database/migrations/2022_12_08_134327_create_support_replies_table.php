@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('supports', function (Blueprint $table) {
+        Schema::create('support_replies', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('support_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->string('topic');
-            $table->string('subject');
             $table->string('message');
-            $table->boolean('resolved')->default(false);
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('supports');
+        Schema::dropIfExists('support_replies');
     }
 };

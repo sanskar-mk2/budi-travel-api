@@ -5,16 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserDetail extends Model
+class AgentStatus extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'onboarded',
-        'terms_accepted',
-        'privacy_accepted',
-        'push_notifications',
-        'active',
+        'user_id',
+        'approved',
+        'suspended',
     ];
 
     public function user()

@@ -54,6 +54,9 @@ Route::group(['middleware' => ['missing-header']], function () {
             Route::post('/privacy_policy', [\App\Http\Controllers\UserDetailController::class, 'post_privacy_policy']);
             Route::get('/onboarding', [\App\Http\Controllers\UserDetailController::class, 'get_onboarding']);
             Route::post('/onboarding', [\App\Http\Controllers\UserDetailController::class, 'post_onboarding']);
+            Route::post('/disable_push_notifications', [\App\Http\Controllers\UserDetailController::class, 'disable_push_notifications']);
+            Route::post('/enable_push_notifications', [\App\Http\Controllers\UserDetailController::class, 'enable_push_notifications']);
+            Route::get('/', [\App\Http\Controllers\UserDetailController::class, 'show']);
         });
 
         Route::group(['prefix' => 'support', 'middleware' => ['abilities:auth_token']], function () {
@@ -79,5 +82,20 @@ Route::group(['middleware' => ['missing-header']], function () {
         Route::get('/users', [\App\Http\Controllers\UserController::class, 'users']);
         Route::get('/agents', [\App\Http\Controllers\UserController::class, 'agents']);
         Route::get('/agent_reviews', [\App\Http\Controllers\AgentReviewController::class, 'index']);
+
+        Route::group(['prefix' => 'user'], function () {
+            Route::get('/{id}', [\App\Http\Controllers\Admin\UserController::class, 'show']);
+        });
+
+        Route::group(['prefix' => 'agents'], function () {
+            Route::get('/unapproved_agents', [\App\Http\Controllers\Admin\AgentController::class, 'unapproved_agents']);
+            Route::post('/approve_agent', [\App\Http\Controllers\Admin\AgentController::class, 'approve_agent']);
+        });
+
+        Route::group(['prefix' => 'support'], function () {
+            Route::get('/support_tickets', [\App\Http\Controllers\Admin\SupportController::class, 'support_tickets']);
+            Route::get('/support_ticket/{id}', [\App\Http\Controllers\Admin\SupportController::class, 'support_ticket']);
+            Route::post('/reply', [\App\Http\Controllers\Admin\SupportController::class, 'reply']);
+        });
     });
 });

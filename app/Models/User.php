@@ -106,4 +106,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(\App\Models\Offer::class, 'created_by');
     }
+
+    public function agentStatus()
+    {
+        return $this->hasOne(\App\Models\AgentStatus::class);
+    }
 }

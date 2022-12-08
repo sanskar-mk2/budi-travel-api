@@ -5,24 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Support extends Model
+class SupportReply extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'topic',
-        'subject',
+        'support_id',
+        'user_id',
         'message',
-        'resolved'
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function replies()
-    {
-        return $this->hasMany(SupportReply::class);
+        return $this->belongsTo(\App\Models\User::class);
     }
 }

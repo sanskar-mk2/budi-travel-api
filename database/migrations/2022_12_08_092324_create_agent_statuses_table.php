@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('supports', function (Blueprint $table) {
+        Schema::create('agent_statuses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->string('topic');
-            $table->string('subject');
-            $table->string('message');
-            $table->boolean('resolved')->default(false);
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->unique();
+            $table->boolean('approved')->default(false);
+            $table->boolean('suspended')->default(false);
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('supports');
+        Schema::dropIfExists('agent_statuses');
     }
 };

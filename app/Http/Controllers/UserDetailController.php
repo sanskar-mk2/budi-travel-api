@@ -80,4 +80,42 @@ class UserDetailController extends Controller
             'user_detail' => $user_detail,
         ], 200);
     }
+
+    public function enable_push_notifications(Request $request)
+    {
+        $user = $request->user();
+        $user_detail = $user->userDetail;
+        $user_detail->update([
+            'push_notifications' => true,
+        ]);
+
+        return response()->json([
+            'message' => 'Successfully enabled push notifications',
+            'user_detail' => $user_detail,
+        ], 200);
+    }
+
+    public function disable_push_notifications(Request $request)
+    {
+        $user = $request->user();
+        $user_detail = $user->userDetail;
+        $user_detail->update([
+            'push_notifications' => false,
+        ]);
+
+        return response()->json([
+            'message' => 'Successfully disabled push notifications',
+            'user_detail' => $user_detail,
+        ], 200);
+    }
+
+    public function show(Request $request)
+    {
+        $user = $request->user();
+
+        return response()->json([
+            'message' => 'Successfully fetched user details',
+            'user_detail' => $user->userDetail,
+        ], 200);
+    }
 }

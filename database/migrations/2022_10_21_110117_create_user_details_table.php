@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('onboarded')->default(false);
             $table->boolean('terms_accepted')->default(false);
             $table->boolean('privacy_accepted')->default(false);
+            $table->boolean('push_notifications')->default(true);
             $table->boolean('active')->default(true);
             $table->timestamps();
         });
