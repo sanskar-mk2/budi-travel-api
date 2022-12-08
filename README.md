@@ -5,3 +5,4 @@
  -  `php artisan key:generate`
  -  `php artisan migrate --seed`
  -  `php artisan storage:link`
+ - `extension=sodium` in your php.ini

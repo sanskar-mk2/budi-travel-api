@@ -36,6 +36,12 @@ class User extends Authenticatable
         return $this->hasMany(\App\Models\Support::class);
     }
 
+    public function routeNotificationForFcm()
+    {
+        return $this->device->device_id;
+        // $user->notify(new FireBaseNotif);
+    }
+
     public function device()
     {
         return $this->hasOne(\App\Models\Device::class);
