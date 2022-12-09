@@ -17,6 +17,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call([
+            DocumentSeeder::class,
+        ]);
+
         Role::create(['name' => 'user']);
         Role::create(['name' => 'agent']);
         Role::create(['name' => 'admin']);

@@ -12,7 +12,7 @@ class UserDetailController extends Controller
 
         return response()->json([
             'message' => 'Successfully fetched terms and conditions',
-            't_and_c' => 'Terms and conditions go here',
+            't_and_c' => \App\Models\Document::where('title', 'Terms and Conditions')->first(),
             'status' => $user->userDetail->terms_accepted,
         ], 200);
     }
@@ -37,7 +37,7 @@ class UserDetailController extends Controller
 
         return response()->json([
             'message' => 'Successfully fetched privacy policy',
-            'privacy_policy' => 'Privacy policy goes here',
+            'privacy_policy' => \App\Models\Document::where('title', 'Privacy Policy')->first(),
             'status' => $user->userDetail->privacy_accepted,
         ], 200);
     }

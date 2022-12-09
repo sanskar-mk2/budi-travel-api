@@ -73,7 +73,7 @@ class UserController extends Controller
             ], 401);
         }
 
-        $users = \App\Models\User::role('user')->get();
+        $users = \App\Models\User::role('user')->paginate(10);
         $users = $users->load('profile');
         $users = $users->load('userReviews');
 

@@ -85,6 +85,8 @@ Route::group(['middleware' => ['missing-header']], function () {
 
         Route::group(['prefix' => 'user'], function () {
             Route::get('/{id}', [\App\Http\Controllers\Admin\UserController::class, 'show']);
+            Route::post('/update_profile/{id}', [\App\Http\Controllers\Admin\UserController::class, 'update_profile']);
+            Route::post('/update_password/{id}', [\App\Http\Controllers\Admin\UserController::class, 'update_password']);
         });
 
         Route::group(['prefix' => 'agents'], function () {
@@ -96,6 +98,13 @@ Route::group(['middleware' => ['missing-header']], function () {
             Route::get('/support_tickets', [\App\Http\Controllers\Admin\SupportController::class, 'support_tickets']);
             Route::get('/support_ticket/{id}', [\App\Http\Controllers\Admin\SupportController::class, 'support_ticket']);
             Route::post('/reply', [\App\Http\Controllers\Admin\SupportController::class, 'reply']);
+        });
+
+        Route::group(['prefix' => 'documents'], function() {
+            Route::post('/terms_and_conditions', [\App\Http\Controllers\Admin\DocumentController::class, 'update_terms_and_conditions']);
+            Route::post('/privacy_policy', [\App\Http\Controllers\Admin\DocumentController::class, 'update_privacy_policy']);
+            Route::get('/terms_and_conditions', [\App\Http\Controllers\Admin\DocumentController::class, 'get_terms_and_conditions']);
+            Route::get('/privacy_policy', [\App\Http\Controllers\Admin\DocumentController::class, 'get_privacy_policy']);
         });
     });
 });
