@@ -14,9 +14,10 @@ class UserController extends Controller
             ], 401);
         }
 
-        $agents = \App\Models\User::role('agent')->paginate(10);
-        $agents = $agents->load('profile');
-        $agents = $agents->load('agentReviews');
+        $agents = \App\Models\User::role('agent')
+            ->with('profile')
+            ->with('agentReviews')
+            ->paginate(10);
 
         return response()->json([
             'message' => 'Successfully fetched agents',
@@ -55,7 +56,7 @@ class UserController extends Controller
             'name' => 'required|string',
         ]);
 
-        $agents = \App\Models\User::role('agent')->where('name', 'like', '%'.$request->name.'%')->get();
+        $agents = \App\Models\User::role('agent')->where('name', 'like', '%' . $request->name . '%')->get();
         $agents = $agents->load('profile');
         $agents = $agents->load('agentReviews');
 
@@ -73,9 +74,10 @@ class UserController extends Controller
             ], 401);
         }
 
-        $users = \App\Models\User::role('user')->paginate(10);
-        $users = $users->load('profile');
-        $users = $users->load('userReviews');
+        $users = \App\Models\User::role('user')
+            ->with('profile')
+            ->with('userReviews')
+            ->paginate(10);
 
         return response()->json([
             'message' => 'Successfully fetched users',
