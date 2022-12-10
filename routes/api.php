@@ -34,6 +34,11 @@ Route::group(['middleware' => ['missing-header']], function () {
             Route::post('/update', [\App\Http\Controllers\ProfileController::class, 'update']);
         });
 
+        Route::group(['prefix' => 'messages', 'middleware' => ['abilities:auth_token']], function () {
+            Route::get('/', [\App\Http\Controllers\MessageController::class, 'index']);
+            Route::post('/create', [\App\Http\Controllers\MessageController::class, 'store']);
+        });
+
         Route::group(['prefix' => 'agent_reviews', 'middleware' => ['abilities:auth_token']], function () {
             Route::post('/create', [\App\Http\Controllers\AgentReviewController::class, 'create']);
             Route::get('/', [\App\Http\Controllers\AgentReviewController::class, 'index']);
