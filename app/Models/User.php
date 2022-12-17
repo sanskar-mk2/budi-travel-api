@@ -111,4 +111,15 @@ class User extends Authenticatable
     {
         return $this->hasOne(\App\Models\AgentStatus::class);
     }
+
+    public function projects()
+    {
+        return $this->hasMany(\App\Models\Project::class, 'user_id');
+    }
+
+    public function agentProjects()
+    {
+        // agent may have many projects through offers
+        return $this->hasManyThrough(\App\Models\Project::class, \App\Models\Offer::class, 'created_by', 'offer_id');
+    }
 }

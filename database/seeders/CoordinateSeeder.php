@@ -22,8 +22,8 @@ class CoordinateSeeder extends Seeder
         foreach ($agents as $key => $agent) {
             if ($key % 2 == 0) {
                 $agent->coordinates()->updateOrCreate([
-                    'latitude' => $faker->latitude,
-                    'longitude' => $faker->longitude,
+                    'latitude' => 0.0,
+                    'longitude' => 0.0,
                 ]);
             }
         }

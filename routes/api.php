@@ -79,11 +79,21 @@ Route::group(['middleware' => ['missing-header']], function () {
             Route::post('/update', [\App\Http\Controllers\CoordinateController::class, 'update']);
             Route::get('/nearby_agents', [\App\Http\Controllers\CoordinateController::class, 'nearby_agents']);
         });
+
+        Route::group(['prefix' => 'projects', 'middleware' => ['abilities:auth_token']], function () {
+            Route::post('/create', [\App\Http\Controllers\ProjectController::class, 'create']);
+            Route::get('/', [\App\Http\Controllers\ProjectController::class, 'projects']);
+            Route::get('/{id}', [\App\Http\Controllers\ProjectController::class, 'project']);
+            Route::post('/complete/{id}', [\App\Http\Controllers\ProjectController::class, 'mark_completed']);
+        });
     });
 
     Route::post('/admin/login', [\App\Http\Controllers\Admin\AuthController::class, 'login']);
     Route::group(['middleware' => ['auth:sanctum', 'abilities:auth_token_admin'], 'prefix' => 'admin'], function () {
         Route::get('/offers', [\App\Http\Controllers\OfferController::class, 'index']);
+        Route::get('/offers/{id}', [\App\Http\Controllers\OfferController::class, 'show']);
+        Route::get('/projects', [\App\Http\Controllers\ProjectController::class, 'index']);
+        Route::get('/projects/{id}', [\App\Http\Controllers\ProjectController::class, 'show']);
         Route::get('/users', [\App\Http\Controllers\UserController::class, 'users']);
         Route::get('/agents', [\App\Http\Controllers\UserController::class, 'agents']);
         Route::get('/agent_reviews', [\App\Http\Controllers\AgentReviewController::class, 'index']);

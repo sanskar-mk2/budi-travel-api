@@ -13,6 +13,8 @@ class OfferController extends Controller
             'body' => 'required|string',
             'price' => 'required|numeric|gt:0',
             'thumbnail' => 'required|image',
+            'image' => 'array',
+            'image.*' => 'image',
         ]);
 
         $offer = new \App\Models\Offer();
@@ -23,9 +25,17 @@ class OfferController extends Controller
         $offer->thumbnail = $request->thumbnail->store('thumbnails', 'public');
         $offer->save();
 
+        if ($request->hasFile('image')) {
+            foreach ($request->image as $image) {
+                $offer->offerImages()->create([
+                    'image' => $image->store('offer_images', 'public'),
+                ]);
+            }
+        }
+
         return response()->json([
             'message' => 'Offer created successfully',
-            'offer' => $offer,
+            'offer' => $offer->load('offerImages'),
         ]);
     }
 
@@ -46,13 +56,23 @@ class OfferController extends Controller
                 }
                 $offers = \App\Models\Offer::where('created_by', $request->agent_id)->get();
             } else {
-                $offers = \App\Models\Offer::all();
+                $offers = \App\Models\Offer::paginate(10);
             }
         }
 
         return response()->json([
             'message' => 'Successfully fetched offers',
             'offers' => $offers,
+        ], 200);
+    }
+
+    public function show(Request $request, $id)
+    {
+        $offer = \App\Models\Offer::findOrFail($id);
+
+        return response()->json([
+            'message' => 'Successfully fetched offer',
+            'offer' => $offer->load('offerImages'),
         ], 200);
     }
 }

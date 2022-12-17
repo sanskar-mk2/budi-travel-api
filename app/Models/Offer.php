@@ -27,4 +27,9 @@ class Offer extends Model
     {
         return $this->belongsTo(\App\Models\User::class, 'created_by');
     }
+
+    public function offerImages(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\OfferImage::class, 'offer_id');
+    }
 }
