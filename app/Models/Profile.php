@@ -23,6 +23,6 @@ class Profile extends Model
 
     public function getProfilePictureAttribute($value)
     {
-        return $value ? asset('storage/'.$value) : null;
+        return $value ? asset('storage/'.$value) : "https://ui-avatars.com/api/?name={$this->user->name}&background=0D8ABC&color=fff";
     }
 }

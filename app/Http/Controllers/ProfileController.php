@@ -11,6 +11,7 @@ class ProfileController extends Controller
         $user = $request->user();
         $profile = $user->profile;
         $profile = $profile->load('user');
+        $profile = $profile->load('user.misc');
 
         return response()->json([
             'message' => 'Successfully fetched profile',

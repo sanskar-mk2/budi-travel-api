@@ -122,4 +122,9 @@ class User extends Authenticatable
         // agent may have many projects through offers
         return $this->hasManyThrough(\App\Models\Project::class, \App\Models\Offer::class, 'created_by', 'offer_id');
     }
+
+    public function misc()
+    {
+        return $this->hasOne(\App\Models\Misc::class);
+    }
 }

@@ -29,6 +29,11 @@ Route::group(['middleware' => ['missing-header']], function () {
             Route::post('/change_email', [\App\Http\Controllers\AuthController::class, 'change_email']);
         });
 
+        Route::group(['prefix' => 'misc', 'middleware' => ['abilities:auth_token']], function () {
+            Route::post('/create', [\App\Http\Controllers\MiscController::class, 'create']);
+            Route::post('/upsert', [\App\Http\Controllers\MiscController::class, 'upsert']);
+        });
+
         Route::group(['prefix' => 'profile', 'middleware' => ['abilities:auth_token']], function () {
             Route::get('/show', [\App\Http\Controllers\ProfileController::class, 'show']);
             Route::post('/update', [\App\Http\Controllers\ProfileController::class, 'update']);
@@ -115,7 +120,7 @@ Route::group(['middleware' => ['missing-header']], function () {
             Route::post('/reply', [\App\Http\Controllers\Admin\SupportController::class, 'reply']);
         });
 
-        Route::group(['prefix' => 'documents'], function() {
+        Route::group(['prefix' => 'documents'], function () {
             Route::post('/terms_and_conditions', [\App\Http\Controllers\Admin\DocumentController::class, 'update_terms_and_conditions']);
             Route::post('/privacy_policy', [\App\Http\Controllers\Admin\DocumentController::class, 'update_privacy_policy']);
             Route::get('/terms_and_conditions', [\App\Http\Controllers\Admin\DocumentController::class, 'get_terms_and_conditions']);
