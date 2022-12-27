@@ -79,7 +79,7 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Successfully logged in',
             'token' => $user->createToken('auth_token', ['auth_token'])->plainTextToken,
-            'user' => $user,
+            'profile' => $user->profile,
         ], 200);
     }
 

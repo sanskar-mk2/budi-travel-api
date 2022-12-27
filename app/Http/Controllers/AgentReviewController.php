@@ -51,6 +51,7 @@ class AgentReviewController extends Controller
         return response()->json([
             'message' => 'Successfully created agent review',
             'agentReview' => $agentReview,
+            'profile' => $agent->profile,
         ], 201);
     }
 

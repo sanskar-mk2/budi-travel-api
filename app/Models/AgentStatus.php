@@ -19,4 +19,14 @@ class AgentStatus extends Model
     {
         return $this->belongsTo(\App\Models\User::class);
     }
+
+    public function getApprovedAttribute($value)
+    {
+        return (bool) $value;
+    }
+
+    public function getSuspendedAttribute($value)
+    {
+        return (bool) $value;
+    }
 }

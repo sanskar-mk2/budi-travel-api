@@ -25,4 +25,9 @@ class Support extends Model
     {
         return $this->hasMany(SupportReply::class);
     }
+
+    public function getResolvedAttribute($value)
+    {
+        return (bool) $value;
+    }
 }

@@ -21,4 +21,29 @@ class UserDetail extends Model
     {
         return $this->belongsTo(\App\Models\User::class);
     }
+
+    public function getOnboardedAttribute($value)
+    {
+        return (bool) $value;
+    }
+
+    public function getTermsAcceptedAttribute($value)
+    {
+        return (bool) $value;
+    }
+
+    public function getPrivacyAcceptedAttribute($value)
+    {
+        return (bool) $value;
+    }
+
+    public function getPushNotificationsAttribute($value)
+    {
+        return (bool) $value;
+    }
+
+    public function getActiveAttribute($value)
+    {
+        return (bool) $value;
+    }
 }
