@@ -80,6 +80,7 @@ class AuthController extends Controller
             'message' => 'Successfully logged in',
             'token' => $user->createToken('auth_token', ['auth_token'])->plainTextToken,
             'profile' => $user->profile,
+            'push_notifications' => $user->userDetail->push_notifications,
         ], 200);
     }
 

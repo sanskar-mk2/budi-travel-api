@@ -52,9 +52,9 @@ class User extends Authenticatable
         return $this->hasOne(\App\Models\Profile::class);
     }
 
-    public function coordinates()
+    public function coordinate()
     {
-        return $this->hasMany(\App\Models\Coordinate::class);
+        return $this->hasOne(\App\Models\Coordinate::class);
     }
 
     public function userDetail()
