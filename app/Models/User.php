@@ -98,7 +98,7 @@ class User extends Authenticatable
         static::created(function ($user) {
             $user->profile()->create();
             $user->userDetail()->create();
-            $user->coordinates()->create();
+            $user->coordinate()->create();
         });
     }
 

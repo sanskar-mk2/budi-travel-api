@@ -16,7 +16,7 @@ class CoordinateController extends Controller
 
         $user = $request->user();
 
-        $coordinates = $user->coordinates()->firstOrNew();
+        $coordinates = $user->coordinate()->firstOrNew();
 
         $coordinates->latitude = $request->latitude;
         $coordinates->longitude = $request->longitude;
