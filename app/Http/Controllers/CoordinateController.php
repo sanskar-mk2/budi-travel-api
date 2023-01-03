@@ -38,7 +38,7 @@ class CoordinateController extends Controller
 
         $users = User::whereHas('roles', function ($query) {
             $query->where('name', 'agent');
-        })->whereHas('coordinates', function ($query) use ($request) {
+        })->whereHas('coordinate', function ($query) use ($request) {
             $query->where('latitude', '>', $request->latitude - 0.5)
                 ->where('latitude', '<', $request->latitude + 0.5)
                 ->where('longitude', '>', $request->longitude - 0.5)
@@ -47,7 +47,7 @@ class CoordinateController extends Controller
 
         return response()->json([
             'message' => 'Successfully fetched nearby agents',
-            'users' => $users->load('coordinates'),
+            'users' => $users->load('coordinate'),
         ], 200);
     }
 }

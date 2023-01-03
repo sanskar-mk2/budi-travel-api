@@ -122,7 +122,7 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        return response()->json($request->user()->load('roles'));
+        return response()->json($request->user()->load('roles', 'profile', 'misc'));
     }
 
     public function forgot_password(Request $request)
