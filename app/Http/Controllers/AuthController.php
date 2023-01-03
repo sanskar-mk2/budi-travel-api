@@ -35,10 +35,21 @@ class AuthController extends Controller
             $user->device()->save($device);
         }
 
+        $device_id = $user->device->device_id;
+        $user = $user->load('profile');
+        // remove user key from profile
+        $user_arr = $user->toArray();
+        unset($user_arr['profile']['user']);
+        // remove device
+        unset($user_arr['device']);
+
+
         return response()->json([
             'message' => 'Successfully created user!',
-            'user' => $user,
+            'user' => $user_arr,
             'token' => $user->createToken('auth_token', ['auth_token'])->plainTextToken,
+            'device_id' => $device_id,
+            'push_notifications' => true,
         ], 201);
     }
 
@@ -76,11 +87,21 @@ class AuthController extends Controller
             }
         }
 
+        $user = $user->load('profile');
+        $device_id = $user->device->device_id;
+        // remove user key from profile
+        $user_arr = $user->toArray();
+        unset($user_arr['profile']['user']);
+        // remove device
+        unset($user_arr['device']);
+
+
         return response()->json([
             'message' => 'Successfully logged in',
             'token' => $user->createToken('auth_token', ['auth_token'])->plainTextToken,
-            'profile' => $user->profile,
+            'user' => $user_arr,
             'push_notifications' => $user->userDetail->push_notifications,
+            'device_id' => $device_id,
         ], 200);
     }
 
