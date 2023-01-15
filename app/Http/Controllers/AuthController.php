@@ -36,17 +36,11 @@ class AuthController extends Controller
         }
 
         $device_id = $user->device->device_id;
-        $user = $user->load('profile');
-        // remove user key from profile
-        $user_arr = $user->toArray();
-        unset($user_arr['profile']['user']);
-        // remove device
-        unset($user_arr['device']);
-
+        $user_res = new \App\Http\Resources\UserResource($user);
 
         return response()->json([
             'message' => 'Successfully created user!',
-            'user' => $user_arr,
+            'user' => $user_res,
             'token' => $user->createToken('auth_token', ['auth_token'])->plainTextToken,
             'device_id' => $device_id,
             'push_notifications' => true,
@@ -89,17 +83,12 @@ class AuthController extends Controller
 
         $user = $user->load('profile');
         $device_id = $user->device->device_id;
-        // remove user key from profile
-        $user_arr = $user->toArray();
-        unset($user_arr['profile']['user']);
-        // remove device
-        unset($user_arr['device']);
-
+        $user_res = new \App\Http\Resources\UserResource($user);
 
         return response()->json([
             'message' => 'Successfully logged in',
+            'user' => $user_res,
             'token' => $user->createToken('auth_token', ['auth_token'])->plainTextToken,
-            'user' => $user_arr,
             'push_notifications' => $user->userDetail->push_notifications,
             'device_id' => $device_id,
         ], 200);
@@ -122,7 +111,7 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        return response()->json($request->user()->load('roles', 'profile', 'misc'));
+        return new \App\Http\Resources\UserResource($request->user());
     }
 
     public function forgot_password(Request $request)
@@ -170,7 +159,6 @@ class AuthController extends Controller
     {
         $request->user()->tokens()->delete();
 
-        // delete device
         $device = \App\Models\Device::where('user_id', $request->user()->id)->first();
         if ($device) {
             $device->delete();
@@ -199,12 +187,6 @@ class AuthController extends Controller
 
     public function change_email(Request $request)
     {
-        // if (! $request->user()->tokenCan('auth_token')) {
-        //     return response()->json([
-        //         'message' => 'Invalid token',
-        //     ], 401);
-        // }
-
         $request->validate([
             'email' => 'required|string|email|unique:users',
         ]);

@@ -11,7 +11,7 @@ class UserController extends Controller
     {
         $user = \App\Models\User::find($id);
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'message' => 'User not found',
             ], 404);
@@ -31,7 +31,7 @@ class UserController extends Controller
     {
         $user = \App\Models\User::find($id);
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'message' => 'User not found',
             ], 404);
@@ -67,7 +67,7 @@ class UserController extends Controller
     {
         $user = \App\Models\User::find($id);
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'message' => 'User not found',
             ], 404);

@@ -16,7 +16,7 @@ class AgentController extends Controller
             ->paginate(10);
 
         return response()->json([
-            'unapproved_agents' => $unapproved_agents
+            'unapproved_agents' => $unapproved_agents,
         ]);
     }
 
@@ -28,12 +28,12 @@ class AgentController extends Controller
 
         $agent = \App\Models\User::role('agent')->find($request->agent_id);
 
-        if (!$agent) {
+        if (! $agent) {
             return response()->json([
                 'message' => 'Agent not found',
             ], 404);
         }
-        if (!$agent->agentStatus) {
+        if (! $agent->agentStatus) {
             $agent_status = new \App\Models\AgentStatus([
                 'approved' => true,
             ]);

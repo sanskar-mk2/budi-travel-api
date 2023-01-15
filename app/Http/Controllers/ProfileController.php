@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -15,7 +16,7 @@ class ProfileController extends Controller
 
         return response()->json([
             'message' => 'Successfully fetched profile',
-            'profile' => $profile,
+            'user' => UserResource::make($user),
         ], 200);
     }
 
@@ -40,7 +41,7 @@ class ProfileController extends Controller
 
         return response()->json([
             'message' => 'Successfully updated profile',
-            'profile' => $profile,
+            'user' => UserResource::make($user),
         ], 200);
     }
 }

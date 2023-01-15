@@ -22,7 +22,7 @@ class SupportController extends Controller
         // fetch support ticket
         $support = \App\Models\Support::find($id);
 
-        if (!$support) {
+        if (! $support) {
             return response()->json([
                 'message' => 'Support ticket not found',
             ], 404);
@@ -31,7 +31,7 @@ class SupportController extends Controller
         $support->load([
             'replies' => function ($query) {
                 $query->with('user');
-            }
+            },
 
         ]);
 
@@ -49,7 +49,7 @@ class SupportController extends Controller
 
         $support = \App\Models\Support::find($request->support_id);
 
-        if (!$support) {
+        if (! $support) {
             return response()->json([
                 'message' => 'Support ticket not found',
             ], 404);

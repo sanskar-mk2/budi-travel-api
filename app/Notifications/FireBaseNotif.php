@@ -35,6 +35,7 @@ class FireBaseNotif extends Notification
                     ->setFcmOptions(ApnsFcmOptions::create()->setAnalyticsLabel('analytics_ios'))
             );
     }
+
     // optional method when using kreait/laravel-firebase:^3.0, this method can be omitted, defaults to the default project
     public function fcmProject($notifiable, $message)
     {

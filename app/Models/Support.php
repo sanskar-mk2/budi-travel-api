@@ -13,7 +13,7 @@ class Support extends Model
         'topic',
         'subject',
         'message',
-        'resolved'
+        'resolved',
     ];
 
     public function user()

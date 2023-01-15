@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,7 @@ class CoordinateController extends Controller
 
         return response()->json([
             'message' => 'Successfully updated coordinates',
-            'coordinates' => $coordinates,
+            'user' => UserResource::make($user),
         ], 200);
     }
 
@@ -47,7 +48,7 @@ class CoordinateController extends Controller
 
         return response()->json([
             'message' => 'Successfully fetched nearby agents',
-            'users' => $users->load('coordinate'),
+            'users' => UserResource::collection($users),
         ], 200);
     }
 }

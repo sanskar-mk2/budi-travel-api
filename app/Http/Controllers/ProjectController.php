@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProjectResource;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -28,7 +29,7 @@ class ProjectController extends Controller
 
         return response()->json([
             'message' => 'Successfully created project',
-            'project' => $project,
+            'project' => ProjectResource::make($project),
         ], 200);
     }
 
@@ -43,7 +44,7 @@ class ProjectController extends Controller
 
         return response()->json([
             'message' => 'Successfully fetched projects',
-            'projects' => $projects,
+            'projects' => ProjectResource::collection($projects),
         ], 200);
     }
 
@@ -85,7 +86,7 @@ class ProjectController extends Controller
 
         return response()->json([
             'message' => 'Successfully marked project as completed',
-            'project' => $project,
+            'project' => ProjectResource::make($project),
         ], 200);
     }
 
@@ -93,6 +94,7 @@ class ProjectController extends Controller
     {
         // show all projects with pagination
         $projects = \App\Models\Project::with('offer')->paginate(10);
+        ProjectResource::collection($projects);
 
         return response()->json([
             'message' => 'Successfully fetched projects',
@@ -112,7 +114,7 @@ class ProjectController extends Controller
 
         return response()->json([
             'message' => 'Successfully fetched project',
-            'project' => $project,
+            'project' => ProjectResource::make($project),
         ], 200);
     }
 }

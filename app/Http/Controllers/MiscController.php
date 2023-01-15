@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 
 class MiscController extends Controller
@@ -43,7 +44,7 @@ class MiscController extends Controller
 
         return response()->json([
             'message' => 'Misc upserted successfully',
-            'misc' => $misc,
+            'user' => UserResource::make($misc->user),
         ], 201);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SupportResource;
 use Illuminate\Http\Request;
 
 class SupportController extends Controller
@@ -24,7 +25,7 @@ class SupportController extends Controller
 
         return response()->json([
             'message' => 'Successfully created support ticket',
-            'support' => $support,
+            'support' => SupportResource::make($support),
         ], 200);
     }
 
@@ -36,7 +37,7 @@ class SupportController extends Controller
 
         return response()->json([
             'message' => 'Successfully fetched support tickets',
-            'supports' => $supports,
+            'supports' => SupportResource::collection($supports),
         ], 200);
     }
 
@@ -54,7 +55,7 @@ class SupportController extends Controller
 
         return response()->json([
             'message' => 'Successfully fetched support ticket',
-            'support' => $support,
+            'support' => SupportResource::make($support),
         ], 200);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -14,10 +15,8 @@ class UserController extends Controller
             ], 401);
         }
 
-        $agents = \App\Models\User::role('agent')
-            ->with('profile')
-            ->with('agentReviews')
-            ->paginate(10);
+        $agents = \App\Models\User::role('agent')->paginate(10);
+        UserResource::collection($agents);
 
         return response()->json([
             'message' => 'Successfully fetched agents',
@@ -35,12 +34,10 @@ class UserController extends Controller
 
         // get top 10 agents with most offers
         $agents = \App\Models\User::role('agent')->withCount('offers')->orderBy('offers_count', 'desc')->take(10)->get();
-        $agents = $agents->load('profile');
-        $agents = $agents->load('agentReviews');
 
         return response()->json([
             'message' => 'Successfully fetched featured agents',
-            'agents' => $agents,
+            'agents' => UserResource::collection($agents),
         ], 200);
     }
 
@@ -56,13 +53,11 @@ class UserController extends Controller
             'name' => 'required|string',
         ]);
 
-        $agents = \App\Models\User::role('agent')->where('name', 'like', '%' . $request->name . '%')->get();
-        $agents = $agents->load('profile');
-        $agents = $agents->load('agentReviews');
+        $agents = \App\Models\User::role('agent')->where('name', 'like', '%'.$request->name.'%')->get();
 
         return response()->json([
             'message' => 'Successfully fetched agents',
-            'agents' => $agents,
+            'agents' => UserResource::collection($agents),
         ], 200);
     }
 
@@ -74,10 +69,8 @@ class UserController extends Controller
             ], 401);
         }
 
-        $users = \App\Models\User::role('user')
-            ->with('profile')
-            ->with('userReviews')
-            ->paginate(10);
+        $users = \App\Models\User::role('user')->paginate(10);
+        UserResource::collection($users);
 
         return response()->json([
             'message' => 'Successfully fetched users',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ReviewResource;
 use Illuminate\Http\Request;
 
 class AgentReviewController extends Controller
@@ -50,8 +51,9 @@ class AgentReviewController extends Controller
 
         return response()->json([
             'message' => 'Successfully created agent review',
-            'agentReview' => $agentReview,
-            'profile' => $agent->profile,
+            'review' => new ReviewResource($agentReview),
+            'agent' => new \App\Http\Resources\UserResource($agent),
+            'user' => new \App\Http\Resources\UserResource($request->user()),
         ], 201);
     }
 
@@ -77,7 +79,7 @@ class AgentReviewController extends Controller
 
         return response()->json([
             'message' => 'Successfully fetched agent reviews',
-            'reviews' => $reviews,
+            'reviews' => ReviewResource::collection($reviews),
         ], 200);
     }
 
@@ -95,7 +97,7 @@ class AgentReviewController extends Controller
 
         return response()->json([
             'message' => 'Successfully fetched reviews related to this user/agent',
-            'reviews' => $userReviews,
+            'reviews' => ReviewResource::collection($userReviews),
         ], 200);
     }
 }

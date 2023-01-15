@@ -18,6 +18,7 @@ class SupportFactory extends Factory
     {
         $user = \App\Models\User::factory()->create();
         $user->assignRole('agent');
+
         return [
             'user_id' => $user->id,
             'topic' => $this->faker->word,

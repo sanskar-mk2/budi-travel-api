@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OfferResource;
 use Illuminate\Http\Request;
 
 class OfferController extends Controller
@@ -35,7 +36,7 @@ class OfferController extends Controller
 
         return response()->json([
             'message' => 'Offer created successfully',
-            'offer' => $offer->load('offerImages'),
+            'offer' => OfferResource::make($offer),
         ]);
     }
 
@@ -54,10 +55,11 @@ class OfferController extends Controller
                         'message' => 'Invalid agent',
                     ], 400);
                 }
-                $offers = \App\Models\Offer::where('created_by', $request->agent_id)->get();
+                $offers = \App\Models\Offer::where('created_by', $request->agent_id)->paginate();
             } else {
                 $offers = \App\Models\Offer::paginate(10);
             }
+            OfferResource::collection($offers);
         }
 
         return response()->json([
@@ -72,7 +74,7 @@ class OfferController extends Controller
 
         return response()->json([
             'message' => 'Successfully fetched offer',
-            'offer' => $offer->load('offerImages'),
+            'offer' => OfferResource::make($offer),
         ], 200);
     }
 }

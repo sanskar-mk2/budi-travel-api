@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MessageResource;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -16,7 +17,7 @@ class MessageController extends Controller
 
         return response()->json([
             'message' => 'Successfully fetched messages',
-            'messages' => $messages,
+            'messages' => MessageResource::collection($messages),
         ], 200);
     }
 
@@ -35,7 +36,7 @@ class MessageController extends Controller
 
         return response()->json([
             'message' => 'Successfully sent message',
-            'message' => $message,
+            'message' => MessageResource::make($message),
         ], 200);
     }
 }

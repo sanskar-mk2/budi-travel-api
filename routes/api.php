@@ -30,7 +30,7 @@ Route::group(['middleware' => ['missing-header']], function () {
         });
 
         Route::group(['prefix' => 'misc', 'middleware' => ['abilities:auth_token']], function () {
-            Route::post('/create', [\App\Http\Controllers\MiscController::class, 'create']);
+            // Route::post('/create', [\App\Http\Controllers\MiscController::class, 'create']);
             Route::post('/upsert', [\App\Http\Controllers\MiscController::class, 'upsert']);
         });
 
@@ -78,6 +78,7 @@ Route::group(['middleware' => ['missing-header']], function () {
         Route::group(['prefix' => 'offers', 'middleware' => ['abilities:auth_token']], function () {
             Route::post('/create', [\App\Http\Controllers\OfferController::class, 'create']);
             Route::get('/', [\App\Http\Controllers\OfferController::class, 'index']);
+            Route::get('/{id}', [\App\Http\Controllers\OfferController::class, 'show']);
         });
 
         Route::group(['prefix' => 'coordinates', 'middleware' => ['abilities:auth_token']], function () {
