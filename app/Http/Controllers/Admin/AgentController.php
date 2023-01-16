@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 
 class AgentController extends Controller
@@ -14,6 +15,8 @@ class AgentController extends Controller
                 $query->where('approved', true);
             })
             ->paginate(10);
+
+        UserResource::collection($unapproved_agents);
 
         return response()->json([
             'unapproved_agents' => $unapproved_agents,

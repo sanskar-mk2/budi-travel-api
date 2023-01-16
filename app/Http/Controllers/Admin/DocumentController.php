@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DocumentResource;
 use App\Models\Document;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,7 @@ class DocumentController extends Controller
         // return api response
         return response()->json([
             'message' => 'Term and Conditions updated successfully',
+            'document' => DocumentResource::make($document),
         ], 200);
     }
 
@@ -37,6 +39,7 @@ class DocumentController extends Controller
         // return api response
         return response()->json([
             'message' => 'Privacy Policy updated successfully',
+            'document' => DocumentResource::make($document),
         ], 200);
     }
 
@@ -47,7 +50,7 @@ class DocumentController extends Controller
         // return api response
         return response()->json([
             'message' => 'Term and Conditions fetched successfully',
-            'data' => $document,
+            'document' => DocumentResource::make($document),
         ], 200);
     }
 
@@ -58,7 +61,7 @@ class DocumentController extends Controller
         // return api response
         return response()->json([
             'message' => 'Privacy Policy fetched successfully',
-            'data' => $document,
+            'document' => DocumentResource::make($document),
         ], 200);
     }
 }

@@ -22,6 +22,7 @@ class SupportResource extends JsonResource
             'created_at' => $this->created_at->diffForHumans(),
             'user' => new BareUserResource($this->user),
             'resolved' => $this->resolved,
+            'replies' => SupportReplyResource::collection($this->replies),
         ];
     }
 }

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DocumentResource;
+use App\Http\Resources\UserDetailResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 
 class UserDetailController extends Controller
@@ -12,7 +15,7 @@ class UserDetailController extends Controller
 
         return response()->json([
             'message' => 'Successfully fetched terms and conditions',
-            't_and_c' => \App\Models\Document::where('title', 'Terms and Conditions')->first(),
+            't_and_c' => new DocumentResource(\App\Models\Document::where('title', 'Terms and Conditions')->first()),
             'status' => $user->userDetail->terms_accepted,
         ], 200);
     }
@@ -27,7 +30,7 @@ class UserDetailController extends Controller
 
         return response()->json([
             'message' => 'Successfully updated terms and conditions',
-            'user_detail' => $user_detail,
+            'user' => UserResource::make($user),
         ], 200);
     }
 
@@ -37,7 +40,7 @@ class UserDetailController extends Controller
 
         return response()->json([
             'message' => 'Successfully fetched privacy policy',
-            'privacy_policy' => \App\Models\Document::where('title', 'Privacy Policy')->first(),
+            'privacy_policy' => new DocumentResource(\App\Models\Document::where('title', 'Privacy Policy')->first()),
             'status' => $user->userDetail->privacy_accepted,
         ], 200);
     }
@@ -52,7 +55,7 @@ class UserDetailController extends Controller
 
         return response()->json([
             'message' => 'Successfully updated privacy policy',
-            'user_detail' => $user_detail,
+            'user' => UserResource::make($user),
         ], 200);
     }
 
@@ -77,7 +80,7 @@ class UserDetailController extends Controller
 
         return response()->json([
             'message' => 'Successfully updated onboarding status',
-            'user_detail' => $user_detail,
+            'user' => UserResource::make($user),
         ], 200);
     }
 
@@ -91,7 +94,7 @@ class UserDetailController extends Controller
 
         return response()->json([
             'message' => 'Successfully enabled push notifications',
-            'user_detail' => $user_detail,
+            'user' => UserResource::make($user)
         ], 200);
     }
 
@@ -105,7 +108,7 @@ class UserDetailController extends Controller
 
         return response()->json([
             'message' => 'Successfully disabled push notifications',
-            'user_detail' => $user_detail,
+            'user' => UserResource::make($user),
         ], 200);
     }
 
@@ -115,7 +118,7 @@ class UserDetailController extends Controller
 
         return response()->json([
             'message' => 'Successfully fetched user details',
-            'user_detail' => $user->userDetail,
+            'user_detail' => new UserDetailResource($user->userDetail),
         ], 200);
     }
 }

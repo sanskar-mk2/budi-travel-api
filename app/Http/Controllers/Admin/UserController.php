@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -17,13 +18,8 @@ class UserController extends Controller
             ], 404);
         }
 
-        $user->load('profile');
-        $user->load('roles');
-        $user->load('userDetail');
-        $user->load('agentStatus');
-
         return response()->json([
-            'user' => $user,
+            'user' => UserResource::make($user),
         ]);
     }
 
@@ -59,7 +55,7 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'Profile updated successfully',
-            'user' => $user,
+            'user' => UserResource::make($user),
         ], 200);
     }
 

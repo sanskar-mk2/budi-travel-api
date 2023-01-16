@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -29,7 +30,7 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Successfully logged in',
             'token' => $user->createToken('auth_token', ['auth_token_admin'])->plainTextToken,
-            'user' => $user,
+            'user' => UserResource::make($user),
         ], 200);
     }
 }

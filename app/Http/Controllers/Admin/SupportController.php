@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\SupportReplyResource;
+use App\Http\Resources\SupportResource;
 use Illuminate\Http\Request;
 
 class SupportController extends Controller
@@ -11,6 +13,8 @@ class SupportController extends Controller
     {
         // fetch all support tickets, paginated
         $supports = \App\Models\Support::paginate(10);
+
+        SupportResource::collection($supports);
 
         return response()->json([
             'supports' => $supports,
@@ -36,7 +40,7 @@ class SupportController extends Controller
         ]);
 
         return response()->json([
-            'support' => $support,
+            'support' => SupportResource::make($support),
         ]);
     }
 
@@ -63,7 +67,7 @@ class SupportController extends Controller
 
         return response()->json([
             'message' => 'Successfully replied to support ticket',
-            'support_reply' => $support_reply,
+            'support_reply' => SupportReplyResource::make($support_reply),
         ], 201);
     }
 }

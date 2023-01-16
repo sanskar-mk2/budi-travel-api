@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProjectResource extends JsonResource
+class SupportReplyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +16,11 @@ class ProjectResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'offer' => OfferResource::make($this->offer),
+            'support_id' => $this->support_id,
+            'replied_by' => new BareUserResource($this->user),
+            'message' => $this->message,
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(),
-            'user' => new BareUserResource($this->user),
-            'price' => $this->price,
         ];
     }
 }
