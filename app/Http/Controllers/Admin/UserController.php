@@ -51,8 +51,6 @@ class UserController extends Controller
             'facebook_handle' => $request->facebook_handle,
         ]);
 
-        $user->load('profile');
-
         return response()->json([
             'message' => 'Profile updated successfully',
             'user' => UserResource::make($user),

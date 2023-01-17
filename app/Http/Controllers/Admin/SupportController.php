@@ -32,14 +32,27 @@ class SupportController extends Controller
             ], 404);
         }
 
-        $support->load([
-            'replies' => function ($query) {
-                $query->with('user');
-            },
-
+        return response()->json([
+            'message' => 'Successfully fetched support ticket',
+            'support' => SupportResource::make($support),
         ]);
+    }
+
+    public function resolve_support_ticket(Request $request, $id)
+    {
+        // fetch support ticket
+        $support = \App\Models\Support::find($id);
+
+        if (! $support) {
+            return response()->json([
+                'message' => 'Support ticket not found',
+            ], 404);
+        }
+
+        $support->resolved = true;
 
         return response()->json([
+            'message' => 'Successfully resolved support ticket',
             'support' => SupportResource::make($support),
         ]);
     }

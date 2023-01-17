@@ -94,7 +94,7 @@ class UserDetailController extends Controller
 
         return response()->json([
             'message' => 'Successfully enabled push notifications',
-            'user' => UserResource::make($user)
+            'user' => UserResource::make($user),
         ], 200);
     }
 

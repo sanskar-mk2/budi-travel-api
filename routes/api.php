@@ -72,7 +72,7 @@ Route::group(['middleware' => ['missing-header']], function () {
         Route::group(['prefix' => 'support', 'middleware' => ['abilities:auth_token']], function () {
             Route::post('/contact_us', [\App\Http\Controllers\SupportController::class, 'contact_us']);
             Route::get('/support_tickets', [\App\Http\Controllers\SupportController::class, 'support_tickets']);
-            Route::get('/support_ticket/{id}', [\App\Http\Controllers\SupportController::class, 'support_ticket']);
+            Route::post('/support_ticket/{id}', [\App\Http\Controllers\SupportController::class, 'resolve_support_ticket']);
         });
 
         Route::group(['prefix' => 'offers', 'middleware' => ['abilities:auth_token']], function () {
@@ -110,6 +110,12 @@ Route::group(['middleware' => ['missing-header']], function () {
             Route::post('/update_password/{id}', [\App\Http\Controllers\Admin\UserController::class, 'update_password']);
         });
 
+        Route::group(['prefix' => 'user_role'], function () {
+            Route::get('/', [\App\Http\Controllers\Admin\UserRoleController::class, 'index']);
+            Route::get('/search', [\App\Http\Controllers\Admin\UserRoleController::class, 'search']);
+            Route::get('/filter', [\App\Http\Controllers\Admin\UserRoleController::class, 'filter']);
+        });
+
         Route::group(['prefix' => 'agents'], function () {
             Route::get('/unapproved_agents', [\App\Http\Controllers\Admin\AgentController::class, 'unapproved_agents']);
             Route::post('/approve_agent', [\App\Http\Controllers\Admin\AgentController::class, 'approve_agent']);
@@ -118,6 +124,7 @@ Route::group(['middleware' => ['missing-header']], function () {
         Route::group(['prefix' => 'support'], function () {
             Route::get('/support_tickets', [\App\Http\Controllers\Admin\SupportController::class, 'support_tickets']);
             Route::get('/support_ticket/{id}', [\App\Http\Controllers\Admin\SupportController::class, 'support_ticket']);
+            Route::post('/support_ticket/{id}', [\App\Http\Controllers\Admin\SupportController::class, 'resolve_support_ticket']);
             Route::post('/reply', [\App\Http\Controllers\Admin\SupportController::class, 'reply']);
         });
 
