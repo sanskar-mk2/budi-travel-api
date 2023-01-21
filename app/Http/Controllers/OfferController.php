@@ -43,7 +43,7 @@ class OfferController extends Controller
     public function index(Request $request)
     {
         if ($request->user()->hasRole('agent')) {
-            $offers = $request->user()->offers;
+            $offers = \App\Models\Offer::where('created_by', $request->user()->id)->paginate();
         } else {
             if ($request->agent_id) {
                 $request->validate([
@@ -59,8 +59,9 @@ class OfferController extends Controller
             } else {
                 $offers = \App\Models\Offer::paginate(10);
             }
-            OfferResource::collection($offers);
         }
+
+        OfferResource::collection($offers);
 
         return response()->json([
             'message' => 'Successfully fetched offers',

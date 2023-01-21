@@ -29,8 +29,8 @@ class MiscController extends Controller
     public function upsert(Request $request)
     {
         $request->validate([
-            'address' => 'required|string|max:255',
-            'tagline' => 'required|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'tagline' => 'nullable|string|max:255',
         ]);
 
         $misc = \App\Models\Misc::where('user_id', auth()->user()->id)->first();
@@ -38,8 +38,10 @@ class MiscController extends Controller
             $misc = new \App\Models\Misc();
             $misc->user_id = auth()->user()->id;
         }
-        $misc->address = $request->address;
-        $misc->tagline = $request->tagline;
+
+        $misc->address = $request->address ?? $misc->address;
+        $misc->tagline = $request->tagline ?? $misc->tagline;
+
         $misc->save();
 
         return response()->json([

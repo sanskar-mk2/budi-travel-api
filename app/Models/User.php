@@ -99,6 +99,7 @@ class User extends Authenticatable
             $user->profile()->create();
             $user->userDetail()->create();
             $user->coordinate()->create();
+            $user->misc()->create();
         });
     }
 
