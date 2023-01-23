@@ -30,8 +30,9 @@ class ProfileController extends Controller
             'name' => 'nullable|string',
         ]);
 
+        $user = $request->user();
+
         if ($request->name) {
-            $user = $request->user();
             $user->update([
                 'name' => $request->name,
             ]);
