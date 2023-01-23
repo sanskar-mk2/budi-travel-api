@@ -16,6 +16,7 @@ class OfferResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'category' => new CategoryResource($this->category),
             'title' => $this->title,
             'body' => $this->body,
             'price' => $this->price,

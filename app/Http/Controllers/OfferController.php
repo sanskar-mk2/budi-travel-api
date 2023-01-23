@@ -16,6 +16,7 @@ class OfferController extends Controller
             'thumbnail' => 'required|image',
             'image' => 'array',
             'image.*' => 'image',
+            'category_id' => 'required|integer|exists:categories,id',
         ]);
 
         $offer = new \App\Models\Offer();
@@ -24,6 +25,7 @@ class OfferController extends Controller
         $offer->price = $request->price;
         $offer->created_by = auth()->id();
         $offer->thumbnail = $request->thumbnail->store('thumbnails', 'public');
+        $offer->category_id = $request->category_id;
         $offer->save();
 
         if ($request->hasFile('image')) {

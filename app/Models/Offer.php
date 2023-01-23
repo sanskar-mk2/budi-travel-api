@@ -32,4 +32,9 @@ class Offer extends Model
     {
         return $this->hasMany(\App\Models\OfferImage::class, 'offer_id');
     }
+
+    public function category()
+    {
+        return $this->belongsTo(\App\Models\Category::class, 'category_id');
+    }
 }

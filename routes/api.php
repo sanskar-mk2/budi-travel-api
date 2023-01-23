@@ -21,6 +21,9 @@ Route::group(['middleware' => ['missing-header']], function () {
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/reset_password', [\App\Http\Controllers\AuthController::class, 'reset_password'])->middleware(['abilities:reset_token']);
 
+        Route::get('/categories', [\App\Http\Controllers\CategoryController::class, 'index'])->middleware(['abilities:auth_token']);
+        Route::post('/create_interests', [\App\Http\Controllers\CategoryController::class, 'create_interests'])->middleware(['abilities:auth_token']);
+
         Route::group(['middleware' => ['abilities:auth_token']], function () {
             Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
             Route::post('/logout_everywhere', [\App\Http\Controllers\AuthController::class, 'logout_everywhere']);

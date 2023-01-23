@@ -128,4 +128,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(\App\Models\Misc::class);
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany(\App\Models\Category::class, 'interests');
+    }
 }
