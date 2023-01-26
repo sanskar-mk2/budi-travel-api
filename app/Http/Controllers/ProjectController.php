@@ -10,8 +10,8 @@ class ProjectController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'offer_id' => 'required|integer',
-            'price' => 'required|integer',
+            'offer_id' => 'required|integer|exists:offers,id',
+            'price' => 'required|numeric|gt:0',
         ]);
 
         // make sure the user has user role

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResource;
 use Illuminate\Http\Request;
 
@@ -29,8 +30,27 @@ class CategoryController extends Controller
 
         $user->categories()->sync($request->category_ids);
 
+        $categories = $user->categories;
+
+        $cats = new CategoryCollection($categories);
+
         return response()->json([
             'message' => 'Successfully created interests',
+            'interests' => $cats,
+        ], 200);
+    }
+
+    public function my_interests(Request $request)
+    {
+        $user = $request->user();
+
+        $categories = $user->categories;
+
+        $cats = new CategoryCollection($categories);
+
+        return response()->json([
+            'message' => 'Successfully fetched interests',
+            'interests' => $cats,
         ], 200);
     }
 }

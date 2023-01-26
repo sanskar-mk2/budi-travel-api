@@ -23,6 +23,7 @@ Route::group(['middleware' => ['missing-header']], function () {
 
         Route::get('/categories', [\App\Http\Controllers\CategoryController::class, 'index'])->middleware(['abilities:auth_token']);
         Route::post('/create_interests', [\App\Http\Controllers\CategoryController::class, 'create_interests'])->middleware(['abilities:auth_token']);
+        Route::get('/my_interests', [\App\Http\Controllers\CategoryController::class, 'my_interests'])->middleware(['abilities:auth_token']);
 
         Route::group(['middleware' => ['abilities:auth_token']], function () {
             Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
@@ -113,11 +114,11 @@ Route::group(['middleware' => ['missing-header']], function () {
             Route::post('/update_password/{id}', [\App\Http\Controllers\Admin\UserController::class, 'update_password']);
         });
 
-        Route::group(['prefix' => 'user_role'], function () {
-            Route::get('/', [\App\Http\Controllers\Admin\UserRoleController::class, 'index']);
-            Route::get('/search', [\App\Http\Controllers\Admin\UserRoleController::class, 'search']);
-            Route::get('/filter', [\App\Http\Controllers\Admin\UserRoleController::class, 'filter']);
-        });
+        // Route::group(['prefix' => 'user_role'], function () {
+        //     Route::get('/', [\App\Http\Controllers\Admin\UserRoleController::class, 'index']);
+        //     Route::get('/search', [\App\Http\Controllers\Admin\UserRoleController::class, 'search']);
+        //     Route::get('/filter', [\App\Http\Controllers\Admin\UserRoleController::class, 'filter']);
+        // });
 
         Route::group(['prefix' => 'agents'], function () {
             Route::get('/unapproved_agents', [\App\Http\Controllers\Admin\AgentController::class, 'unapproved_agents']);

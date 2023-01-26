@@ -31,6 +31,8 @@ class UserResource extends JsonResource
                 'longitude' => $this->coordinate->longitude,
             ],
             'user_detail' => new UserDetailResource($this->userDetail),
+            'interests' => new CategoryCollection($this->categories),
+            'agent_status' => new AgentStatusResource($this->agentStatus),
         ];
     }
 }

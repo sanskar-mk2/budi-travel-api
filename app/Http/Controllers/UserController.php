@@ -15,7 +15,15 @@ class UserController extends Controller
             ], 401);
         }
 
-        $agents = \App\Models\User::role('agent')->paginate(10);
+        $agents = \App\Models\User::role('agent')
+            ->when($request->from, function ($query, $from) {
+                return $query->where('created_at', '>=', $from);
+            })->when($request->to, function ($query, $to) {
+                return $query->where('created_at', '<=', $to);
+            })->when($request->search, function ($query, $search) {
+                return $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->paginate(10);
         UserResource::collection($agents);
 
         return response()->json([
@@ -53,7 +61,7 @@ class UserController extends Controller
             'name' => 'required|string',
         ]);
 
-        $agents = \App\Models\User::role('agent')->where('name', 'like', '%'.$request->name.'%')->get();
+        $agents = \App\Models\User::role('agent')->where('name', 'like', '%' . $request->name . '%')->get();
 
         return response()->json([
             'message' => 'Successfully fetched agents',
@@ -69,7 +77,15 @@ class UserController extends Controller
             ], 401);
         }
 
-        $users = \App\Models\User::role('user')->paginate(10);
+        $users = \App\Models\User::role('user')
+            ->when($request->from, function ($query, $from) {
+                return $query->where('created_at', '>=', $from);
+            })->when($request->to, function ($query, $to) {
+                return $query->where('created_at', '<=', $to);
+            })->when($request->search, function ($query, $search) {
+                return $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->paginate(10);
         UserResource::collection($users);
 
         return response()->json([
