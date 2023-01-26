@@ -48,7 +48,7 @@ class CoordinateController extends Controller
 
         return response()->json([
             'message' => 'Successfully fetched nearby agents',
-            'users' => UserResource::collection($users),
+            'agents' => UserResource::collection($users),
         ], 200);
     }
 }
