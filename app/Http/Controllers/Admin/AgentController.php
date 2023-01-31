@@ -19,7 +19,7 @@ class AgentController extends Controller
             })->when($request->to, function ($query, $to) {
                 return $query->where('created_at', '<=', $to);
             })->when($request->search, function ($query, $search) {
-                return $query->where('name', 'like', '%' . $search . '%');
+                return $query->where('name', 'like', '%'.$search.'%');
             })
             ->paginate(10);
 
@@ -38,12 +38,12 @@ class AgentController extends Controller
 
         $agent = \App\Models\User::role('agent')->find($request->agent_id);
 
-        if (!$agent) {
+        if (! $agent) {
             return response()->json([
                 'message' => 'Agent not found',
             ], 404);
         }
-        if (!$agent->agentStatus) {
+        if (! $agent->agentStatus) {
             $agent_status = new \App\Models\AgentStatus([
                 'approved' => true,
             ]);

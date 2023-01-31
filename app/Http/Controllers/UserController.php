@@ -21,7 +21,7 @@ class UserController extends Controller
             })->when($request->to, function ($query, $to) {
                 return $query->where('created_at', '<=', $to);
             })->when($request->search, function ($query, $search) {
-                return $query->where('name', 'like', '%' . $search . '%');
+                return $query->where('name', 'like', '%'.$search.'%');
             })
             ->paginate(10);
         UserResource::collection($agents);
@@ -61,7 +61,7 @@ class UserController extends Controller
             'name' => 'required|string',
         ]);
 
-        $agents = \App\Models\User::role('agent')->where('name', 'like', '%' . $request->name . '%')->get();
+        $agents = \App\Models\User::role('agent')->where('name', 'like', '%'.$request->name.'%')->get();
 
         return response()->json([
             'message' => 'Successfully fetched agents',
@@ -83,7 +83,7 @@ class UserController extends Controller
             })->when($request->to, function ($query, $to) {
                 return $query->where('created_at', '<=', $to);
             })->when($request->search, function ($query, $search) {
-                return $query->where('name', 'like', '%' . $search . '%');
+                return $query->where('name', 'like', '%'.$search.'%');
             })
             ->paginate(10);
         UserResource::collection($users);

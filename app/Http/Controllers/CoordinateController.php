@@ -45,7 +45,7 @@ class CoordinateController extends Controller
                 ->where('longitude', '>', $request->longitude - 0.5)
                 ->where('longitude', '<', $request->longitude + 0.5);
         })->when($request->name, function ($query, $name) {
-            return $query->where('name', 'like', '%' . $name . '%');
+            return $query->where('name', 'like', '%'.$name.'%');
         })
             ->get();
 
