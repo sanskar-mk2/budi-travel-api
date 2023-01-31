@@ -107,6 +107,8 @@ Route::group(['middleware' => ['missing-header']], function () {
         Route::get('/users', [\App\Http\Controllers\UserController::class, 'users']);
         Route::get('/agents', [\App\Http\Controllers\UserController::class, 'agents']);
         Route::get('/agent_reviews', [\App\Http\Controllers\AgentReviewController::class, 'index']);
+        Route::get('/user_chart', [\App\Http\Controllers\UserController::class, 'users_created_count_by_month']);
+        Route::get('/agent_chart', [\App\Http\Controllers\UserController::class, 'agents_created_count_by_month']);
 
         Route::group(['prefix' => 'user'], function () {
             Route::get('/{id}', [\App\Http\Controllers\Admin\UserController::class, 'show']);

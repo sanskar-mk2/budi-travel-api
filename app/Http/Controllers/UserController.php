@@ -93,4 +93,44 @@ class UserController extends Controller
             'users' => $users,
         ], 200);
     }
+
+    public function users_created_count_by_month(Request $request)
+    {
+        $users = \App\Models\User::role('user')->selectRaw('count(*) as count, MONTH(created_at) as month')->groupBy('month')->get();
+
+        $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        $count = [];
+        foreach ($months as $key => $month) {
+            $count[$key] = 0;
+            if ($users->where('month', $key + 1)->first()) {
+                $count[$key] = $users->where('month', $key + 1)->first()->count;
+            }
+        }
+
+        return response()->json([
+            'message' => 'Successfully fetched users created count by month',
+            'months' => $months,
+            'count' => $count,
+        ], 200);
+    }
+
+    public function agents_created_count_by_month(Request $request)
+    {
+        $agents = \App\Models\User::role('agent')->selectRaw('count(*) as count, MONTH(created_at) as month')->groupBy('month')->get();
+
+        $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        $count = [];
+        foreach ($months as $key => $month) {
+            $count[$key] = 0;
+            if ($agents->where('month', $key + 1)->first()) {
+                $count[$key] = $agents->where('month', $key + 1)->first()->count;
+            }
+        }
+
+        return response()->json([
+            'message' => 'Successfully fetched agents created count by month',
+            'months' => $months,
+            'count' => $count,
+        ], 200);
+    }
 }

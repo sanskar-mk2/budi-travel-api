@@ -44,7 +44,10 @@ class CoordinateController extends Controller
                 ->where('latitude', '<', $request->latitude + 0.5)
                 ->where('longitude', '>', $request->longitude - 0.5)
                 ->where('longitude', '<', $request->longitude + 0.5);
-        })->get();
+        })->when($request->name, function ($query, $name) {
+            return $query->where('name', 'like', '%' . $name . '%');
+        })
+            ->get();
 
         return response()->json([
             'message' => 'Successfully fetched nearby agents',
