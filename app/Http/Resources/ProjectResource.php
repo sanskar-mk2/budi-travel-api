@@ -20,7 +20,7 @@ class ProjectResource extends JsonResource
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(),
             'user' => new BareUserResource($this->user),
-            'price' => $this->price,
+            'price' => number_format($this->price, 2, '.', ''),
         ];
     }
 }

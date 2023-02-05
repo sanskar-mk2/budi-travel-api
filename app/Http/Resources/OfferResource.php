@@ -19,7 +19,7 @@ class OfferResource extends JsonResource
             'category' => new CategoryResource($this->category),
             'title' => $this->title,
             'body' => $this->body,
-            'price' => $this->price,
+            'price' => number_format($this->price, 2, '.', ''),
             'created_at' => $this->created_at->diffForHumans(),
             'created_by' => new BareUserResource($this->createdBy),
             'thumbnail' => $this->thumbnail,
