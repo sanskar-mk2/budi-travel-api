@@ -30,7 +30,7 @@ class Project extends Model
     public function price(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
         return \Illuminate\Database\Eloquent\Casts\Attribute::make(
-            get: fn ($value) => floatval($value / 100),
+            get: fn ($value) => $value / 100,
             set: fn ($value) => $value * 100,
         );
     }

@@ -20,7 +20,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'role' => $this->getRoleNames()->first(),
             'ratings' => [
-                'average_ratings' => $this->average_rating,
+                'average_ratings' => number_format($this->average_ratings, 1, '.', ''),
                 'total_ratings' => $this->agentReviews->count(),
                 'agent_reviews' => ReviewResource::collection($this->agentReviews),
             ],
