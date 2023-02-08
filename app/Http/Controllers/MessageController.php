@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\MessageResource;
+use App\Models\Message;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -14,6 +15,22 @@ class MessageController extends Controller
         ]);
 
         $messages = \App\Models\Message::between($request->user()->id, $request->receiver_id)->with('sender', 'receiver')->get();
+
+        return response()->json([
+            'message' => 'Successfully fetched messages',
+            'messages' => MessageResource::collection($messages),
+        ], 200);
+    }
+
+    public function index_users(Request $request)
+    {
+        $messages = \App\Models\Message::where('receiver_id', $request->user()->id)
+            ->orWhere('sender_id', $request->user()->id)
+            ->orderByDesc('created_at')->get()
+            ->unique(function ($item) use ($request) {
+                return $item->sender_id == $request->user()->id ? $item->receiver_id : $item->sender_id;
+            });
+        MessageResource::collection($messages);
 
         return response()->json([
             'message' => 'Successfully fetched messages',

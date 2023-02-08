@@ -45,6 +45,7 @@ Route::group(['middleware' => ['missing-header']], function () {
 
         Route::group(['prefix' => 'messages', 'middleware' => ['abilities:auth_token']], function () {
             Route::get('/', [\App\Http\Controllers\MessageController::class, 'index']);
+            Route::get('/index_users', [\App\Http\Controllers\MessageController::class, 'index_users']);
             Route::post('/create', [\App\Http\Controllers\MessageController::class, 'store']);
         });
 
