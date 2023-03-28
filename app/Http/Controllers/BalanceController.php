@@ -22,7 +22,19 @@ class BalanceController extends Controller
 
         return response()->json([
             'message' => 'Successfully added balance',
-            'balance' => $balance,
+            'amount' => number_format($balance->amount, 2, '.', ' ')
+        ], 200);
+    }
+
+    public function get_balance()
+    {
+        $balance = \App\Models\Balance::firstOrCreate([
+            'user_id' => auth()->user()->id,
+        ]);
+
+        return response()->json([
+            'message' => 'Successfully retrieved balance',
+            'amount' => number_format($balance->amount, 2, '.', ' ')
         ], 200);
     }
 }

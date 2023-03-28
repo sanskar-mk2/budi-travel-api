@@ -25,6 +25,7 @@ Route::group(['middleware' => ['missing-header']], function () {
         Route::post('/create_interests', [\App\Http\Controllers\CategoryController::class, 'create_interests'])->middleware(['abilities:auth_token']);
         Route::get('/my_interests', [\App\Http\Controllers\CategoryController::class, 'my_interests'])->middleware(['abilities:auth_token']);
         Route::post('/add_balance', [\App\Http\Controllers\BalanceController::class, 'add_balance'])->middleware(['abilities:auth_token']);
+        Route::get('/get_balance', [\App\Http\Controllers\BalanceController::class, 'get_balance'])->middleware(['abilities:auth_token']);
 
         Route::group(['middleware' => ['abilities:auth_token']], function () {
             Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
