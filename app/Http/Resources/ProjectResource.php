@@ -21,6 +21,7 @@ class ProjectResource extends JsonResource
             'updated_at' => $this->updated_at->diffForHumans(),
             'user' => new BareUserResource($this->user),
             'price' => number_format($this->price, 2, '.', ''),
+            'paid_with_balance' => $this->paid_with_balance,
         ];
     }
 }

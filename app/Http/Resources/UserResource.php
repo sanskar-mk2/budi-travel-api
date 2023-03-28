@@ -33,6 +33,7 @@ class UserResource extends JsonResource
             'user_detail' => new UserDetailResource($this->userDetail),
             'interests' => new CategoryCollection($this->categories),
             'agent_status' => new AgentStatusResource($this->agentStatus),
+            'balance' => $this->balance->amount ?? 0,
         ];
     }
 }

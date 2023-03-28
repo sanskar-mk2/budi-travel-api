@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             DocumentSeeder::class,
+            CategorySeeder::class,
         ]);
 
         Role::create(['name' => 'user']);

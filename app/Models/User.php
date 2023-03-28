@@ -100,6 +100,7 @@ class User extends Authenticatable
             $user->userDetail()->create();
             $user->coordinate()->create();
             $user->misc()->create();
+            $user->balance()->create();
         });
     }
 
@@ -132,5 +133,10 @@ class User extends Authenticatable
     public function categories()
     {
         return $this->belongsToMany(\App\Models\Category::class, 'interests');
+    }
+
+    public function balance(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(\App\Models\Balance::class);
     }
 }

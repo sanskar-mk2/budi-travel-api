@@ -14,7 +14,10 @@ class MessageController extends Controller
             'receiver_id' => 'required|integer',
         ]);
 
-        $messages = \App\Models\Message::between($request->user()->id, $request->receiver_id)->with('sender', 'receiver')->get();
+        $messages = \App\Models\Message::between($request->user()->id, $request->receiver_id)
+            ->orderByDesc('created_at')
+            ->with('sender', 'receiver')
+            ->get();
 
         return response()->json([
             'message' => 'Successfully fetched messages',

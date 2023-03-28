@@ -12,6 +12,7 @@ class ProjectController extends Controller
         $request->validate([
             'offer_id' => 'required|integer|exists:offers,id',
             'price' => 'required|numeric|gt:0',
+            'paid_with_balance' => 'required|boolean',
         ]);
 
         // make sure the user has user role
@@ -21,11 +22,29 @@ class ProjectController extends Controller
             ], 403);
         }
 
+        \App\Models\Balance::firstOrCreate([
+            'user_id' => $request->user()->id,
+        ]);
+
+        // make sure the user has enough balance
+        if ($request->paid_with_balance && $request->user()->balance->amount < $request->price) {
+            return response()->json([
+                'message' => 'You do not have enough balance',
+            ], 403);
+        }
+
         // create the project
         $project = $request->user()->projects()->create([
             'offer_id' => $request->offer_id,
             'price' => $request->price,
+            'paid_with_balance' => $request->paid_with_balance,
         ]);
+
+        // if paid with balance, deduct the balance
+        if ($request->paid_with_balance) {
+            $request->user()->balance->amount -= $request->price;
+            $request->user()->balance->save();
+        }
 
         return response()->json([
             'message' => 'Successfully created project',

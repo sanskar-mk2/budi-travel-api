@@ -13,6 +13,7 @@ class Project extends Model
         'user_id',
         'offer_id',
         'price',
+        'paid_with_balance',
         'user_finished_at',
         'agent_finished_at',
     ];
@@ -32,6 +33,13 @@ class Project extends Model
         return \Illuminate\Database\Eloquent\Casts\Attribute::make(
             get: fn ($value) => $value / 100,
             set: fn ($value) => $value * 100,
+        );
+    }
+
+    protected function paidWithBalance(): \Illuminate\Database\Eloquent\Casts\Attribute
+    {
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(
+            get: fn ($value) => boolval($value),
         );
     }
 }
