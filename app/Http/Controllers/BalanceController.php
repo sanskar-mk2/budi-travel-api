@@ -19,10 +19,9 @@ class BalanceController extends Controller
         $balance->amount += $request->amount;
         $balance->save();
 
-
         return response()->json([
             'message' => 'Successfully added balance',
-            'amount' => number_format($balance->amount, 2, '.', ' ')
+            'amount' => number_format($balance->amount, 2, '.', ' '),
         ], 200);
     }
 
@@ -34,7 +33,7 @@ class BalanceController extends Controller
 
         return response()->json([
             'message' => 'Successfully retrieved balance',
-            'amount' => number_format($balance->amount, 2, '.', ' ')
+            'amount' => number_format($balance->amount, 2, '.', ' '),
         ], 200);
     }
 }

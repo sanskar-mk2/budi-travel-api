@@ -35,7 +35,7 @@ class UserResource extends JsonResource
             'agent_status' => new AgentStatusResource($this->agentStatus),
             'balance' => [
                 'amount' => number_format($this->balance->amount ?? 0, 2, '.', ''),
-            ]
+            ],
         ];
     }
 }
