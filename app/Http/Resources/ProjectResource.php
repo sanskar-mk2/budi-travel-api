@@ -22,6 +22,9 @@ class ProjectResource extends JsonResource
             'user' => new BareUserResource($this->user),
             'price' => number_format($this->price, 2, '.', ''),
             'paid_with_balance' => $this->paid_with_balance,
+            'user_finished_at' => $this->user_finished_at,
+            'agent_finished_at' => $this->agent_finished_at,
+            'status' => $this->user_finished_at && $this->agent_finished_at ? 'Completed' : 'In Progress',
         ];
     }
 }
