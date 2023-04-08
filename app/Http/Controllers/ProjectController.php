@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProjectResource;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -85,20 +86,28 @@ class ProjectController extends Controller
 
     public function mark_completed(Request $request, $id)
     {
-        $project = $request->user()->projects()->where('id', $id)->first();
+        $project = Project::findOrFail($id);
 
-        if (! $project) {
+        if ($project->user_id === $request->user()->id) {
+            if (! $request->user()->hasRole('user')) {
+                return response()->json([
+                    'message' => 'You are not allowed to mark this project as completed',
+                ], 403);
+            } else {
+                $project->user_finished_at = now();
+            }
+        } elseif ($project->offer->created_by === $request->user()->id) {
+            if (! $request->user()->hasRole('agent')) {
+                return response()->json([
+                    'message' => 'You are not allowed to mark this project as completed',
+                ], 403);
+            } else {
+                $project->agent_finished_at = now();
+            }
+        } else {
             return response()->json([
-                'message' => 'Project not found',
-            ], 404);
-        }
-
-        // if user has the role user, mark user_finished_at as now
-        // if user has the role agent, mark agent_finished_at as now
-        if ($request->user()->hasRole('user')) {
-            $project->user_finished_at = now();
-        } elseif ($request->user()->hasRole('agent')) {
-            $project->agent_finished_at = now();
+                'message' => 'You are not allowed to mark this project as completed',
+            ], 403);
         }
 
         $project->save();
